@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class InfoScreen extends javax.swing.JFrame {
 
-    String user;
+    private String user;
 
     public InfoScreen(String user) {
         setTitle("Pantalla de Información");

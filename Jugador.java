@@ -1,6 +1,6 @@
 public class Jugador {
-    String nombre;
-    BacteriaJ bacteriaJ = new BacteriaJ();
+    private String nombre;
+    private BacteriaJ bacteriaJ = new BacteriaJ();
 
 public Jugador(String nombre){
     this.nombre = nombre;
