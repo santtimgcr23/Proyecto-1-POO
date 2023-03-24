@@ -1,16 +1,16 @@
 import java.util.Random;
 
 public class Alimento extends Jugable {
-    boolean tipo;
-    int size = 1;
+    private boolean tipo;
+    private int size = 1;
 
     public Alimento(){
         Random r = new Random();
         this.tipo = r.nextBoolean();
-        setSize();
+        detTamano();
     }
 
-    public void setSize(){
+    public void detTamano(){
         if (tipo){
             Random r = new Random();
             this.size = r.nextInt(6-1) + 1;

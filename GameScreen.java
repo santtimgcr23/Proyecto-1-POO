@@ -3,7 +3,6 @@ import java.awt.GridLayout;
 public class GameScreen extends javax.swing.JFrame {
     private Jugador jugador;
     Juego juego = new Juego();
-
     public GameScreen(String jugadorN) {
         setTitle("MICROBIA - Pantalla de Juego");
         this.jugador = new Jugador(jugadorN);
@@ -13,7 +12,7 @@ public class GameScreen extends javax.swing.JFrame {
         initComponents();
         initialize();
     }
-
+    
     public void initialize(){
         Boton[][] mapa = juego.getTablero().getMapa();
         gamePAN.setLayout(new GridLayout(50,50));
@@ -24,12 +23,13 @@ public class GameScreen extends javax.swing.JFrame {
             }
         }
     }
-                        
     private void initComponents() {
+
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtData = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         gamePAN = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,25 +57,46 @@ public class GameScreen extends javax.swing.JFrame {
         txtData.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         txtData.setForeground(new java.awt.Color(153, 255, 153));
         txtData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtData.setText(jugador.getNombre() + " / ENERGÍA: " + jugador.getBacteriaJ().energia + " / VISIÓN: " + jugador.getBacteriaJ().vision + " / VELOCIDAD: " + jugador.getBacteriaJ().velocidad + " / EDAD: " + jugador.getBacteriaJ().edad);
+        txtData.setText(jugador.getNombre() + " / ENERGÍA: " + jugador.getBacteriaJ().getEnergia() + " / VISIÓN: " + jugador.getBacteriaJ().getVision() + " / VELOCIDAD: " + jugador.getBacteriaJ().getVelocidad() + " / EDAD: " + jugador.getBacteriaJ().getEdad());
+
+        jButton4.setBackground(new java.awt.Color(153, 255, 153));
+        jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(51, 0, 102));
+        jButton4.setText("SIMULAR");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addContainerGap())
         );
 
         gamePAN.setBackground(new java.awt.Color(51, 0, 102));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(gamePAN);
-        gamePAN.setLayout(jPanel3Layout);
+        javax.swing.GroupLayout gamePANLayout = new javax.swing.GroupLayout(gamePAN);
+        gamePAN.setLayout(gamePANLayout);
+        gamePANLayout.setHorizontalGroup(
+            gamePANLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 769, Short.MAX_VALUE)
+        );
+        gamePANLayout.setVerticalGroup(
+            gamePANLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 397, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,6 +123,11 @@ public class GameScreen extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -118,15 +144,14 @@ public class GameScreen extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
     }
 
     // Variables declaration - do not modify                     
+    private javax.swing.JPanel gamePAN;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel gamePAN;
     private javax.swing.JLabel txtData;
     // End of variables declaration                   
 }
