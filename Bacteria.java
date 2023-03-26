@@ -1,13 +1,14 @@
+import java.awt.Color;
+
 public class Bacteria extends Jugable {
-    private int energia = 1;
-    private int vision = 1;
-    private int velocidad = 1;
+    private int energia = 10;
+    private int vision = 10;
+    private int velocidad = 10;
     private int edad = 1;
-    private int posicion = 0;
+    private int posicionX = 0;
+    private int posicionY = 0;
     
     public Bacteria(){}
-    
-    public void comer(){}
 
     public void addEnergia(int extra){
         setEnergia(energia + extra);
@@ -61,13 +62,53 @@ public class Bacteria extends Jugable {
     public void setEdad(int edad) {
         this.edad = edad;
     }
-    public int getPosicion() {
-        return posicion;
+    public int getPosicionX() {
+        return posicionX;
     }
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
+    public void setPosicionX(int posicionx) {
+        this.posicionX = posicionx;
     }
 
-    
+    public int getPosicionY() {
+        return posicionY;
+    }
+    public void setPosicionY(int posiciony) {
+        this.posicionY = posiciony;
+    }
 
+    @Override
+    public Bacteria comerEsteObjeto(Bacteria bacteriaQueAtaca, Aumentos aumentos){
+        int mitadEnergia = this.getEnergia() / 2;
+        int mitadVision = this.getVision() / 2;
+        int mitadVelocidad = this.getVelocidad() / 2;
+
+        int nuevaEnergia = mitadEnergia + bacteriaQueAtaca.getEnergia();
+        int nuevaVision = mitadVision + bacteriaQueAtaca.getVision();
+        int nuevaVelocidad = mitadVelocidad + bacteriaQueAtaca.getVelocidad();
+
+        bacteriaQueAtaca.setEnergia(nuevaEnergia);
+        bacteriaQueAtaca.setVision(nuevaVision);
+        bacteriaQueAtaca.setVelocidad(nuevaVelocidad);
+
+        return bacteriaQueAtaca;
+        
+    }
+
+    @Override
+    public Color colorCasilla(){
+        Color colorCasilla = Color.BLUE;
+        return colorCasilla;
+    }
+
+    @Override
+    public Jugable objetoPorColocar(){
+        Jugable jugable = new Bacteria();
+        return jugable;
+    }
+
+    @Override
+    public void aumentarEdad(Aumentos aumentos){
+        int nuevaEdad = this.getEdad() + aumentos.getCambiosEdad();
+        this.setEdad(nuevaEdad);
+    }
 }

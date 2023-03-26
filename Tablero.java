@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.util.ArrayList;
+
 import javax.swing.border.LineBorder;
 
 public class Tablero{
@@ -28,6 +30,20 @@ public class Tablero{
         this.mapa = mapa;
     }
 
-    
+    public ArrayList<Integer> obtenerPosicionJugador(){
+        ArrayList<Integer> respuesta = new ArrayList<Integer>();
+        for(int i = 0; i<mapa.length; i++){
+            for(int j= 0; j<mapa[i].length; j++){
+                if(mapa[i][j].jugable != null){
+                    if(mapa[i][j].jugable.getClass() == BacteriaJ.class){
+                        respuesta.add(i);
+                        respuesta.add(j);
+                    }
+                }
+            }
+        }
+        return respuesta;
+
+    }
 
 }

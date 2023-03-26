@@ -1,4 +1,5 @@
-public class MainScreen extends javax.swing.JFrame {
+
+public class MainScreen extends javax.swing.JFrame{
     private int incEnergia = 1;
     private int incVision = 1;
     private int incVeloc = 1;

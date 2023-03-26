@@ -1,11 +1,13 @@
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GameScreen extends javax.swing.JFrame {
-    private Jugador jugador;
+public class GameScreen extends javax.swing.JFrame{
     Juego juego = new Juego();
-    public GameScreen(String jugadorN) {
+    GameScreen(String jugadorN) {
         setTitle("MICROBIA - Pantalla de Juego");
-        this.jugador = new Jugador(jugadorN);
+        Jugador jugador = new Jugador(jugadorN);
+        this.juego.setJugador(jugador);
         juego.posBacteriaJ();
         juego.posAlimento();
         juego.posNPC();
@@ -19,6 +21,9 @@ public class GameScreen extends javax.swing.JFrame {
         for (int i = 0; i < 50; i++){
             for (int j = 0; j < 50; j++){
                 mapa[i][j].setSize(1, 1);
+                int x = i;
+                int y = j;
+                mapa[i][j].addActionListener(e -> accionPresionarBoton(x, y));
                 gamePAN.add(mapa[i][j]);
             }
         }
@@ -57,12 +62,22 @@ public class GameScreen extends javax.swing.JFrame {
         txtData.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         txtData.setForeground(new java.awt.Color(153, 255, 153));
         txtData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtData.setText(jugador.getNombre() + " / ENERGÍA: " + jugador.getBacteriaJ().getEnergia() + " / VISIÓN: " + jugador.getBacteriaJ().getVision() + " / VELOCIDAD: " + jugador.getBacteriaJ().getVelocidad() + " / EDAD: " + jugador.getBacteriaJ().getEdad());
+        txtData.setText(juego.getJugador().getNombre() + " / ENERGÍA: " + juego.getJugador().getBacteriaJ().getEnergia() + " / VISIÓN: " + juego.getJugador().getBacteriaJ().getVision() + " / VELOCIDAD: " + juego.getJugador().getBacteriaJ().getVelocidad() + " / EDAD: " + juego.getJugador().getBacteriaJ().getEdad());
 
         jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(51, 0, 102));
         jButton4.setText("SIMULAR");
+
+        ActionListener accion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                juego.simularNPC();
+                txtData.setText(juego.getJugador().getNombre() + " / ENERGÍA: " + juego.getJugador().getBacteriaJ().getEnergia() + " / VISIÓN: " + juego.getJugador().getBacteriaJ().getVision() + " / VELOCIDAD: " + juego.getJugador().getBacteriaJ().getVelocidad() + " / EDAD: " + juego.getJugador().getBacteriaJ().getEdad());
+            }
+        };
+
+        jButton4.addActionListener(accion);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -117,34 +132,7 @@ public class GameScreen extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+    }// </editor-fold>                 
 
     // Variables declaration - do not modify                     
     private javax.swing.JPanel gamePAN;
@@ -154,4 +142,14 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel txtData;
     // End of variables declaration                   
+
+    public void accionPresionarBoton(int i, int j){
+        juego.organizadorMoverJugador(i, j);
+        actualizarDatosPantalla();
+    }
+
+    public void actualizarDatosPantalla(){
+        txtData.setText(juego.getJugador().getNombre() + " / ENERGÍA: " + juego.getJugador().getBacteriaJ().getEnergia() + " / VISIÓN: " + juego.getJugador().getBacteriaJ().getVision() + " / VELOCIDAD: " + juego.getJugador().getBacteriaJ().getVelocidad() + " / EDAD: " + juego.getJugador().getBacteriaJ().getEdad());
+    }
+
 }

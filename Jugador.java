@@ -1,6 +1,7 @@
 public class Jugador {
     private String nombre;
     private BacteriaJ bacteriaJ = new BacteriaJ();
+    private boolean turnoTerminado = false;
 
 public Jugador(String nombre){
     this.nombre = nombre;
@@ -20,6 +21,14 @@ public BacteriaJ getBacteriaJ() {
 
 public void setBacteriaJ(BacteriaJ bacteriaJ) {
     this.bacteriaJ = bacteriaJ;
+}
+
+public boolean getTurnoTerminado(){
+    return turnoTerminado;
+}
+
+public void setTurnoTerminado(boolean turnoTerminado){
+    this.turnoTerminado = turnoTerminado;
 }
     
 }

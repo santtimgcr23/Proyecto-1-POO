@@ -14,6 +14,7 @@ public class Alimento extends Jugable {
         if (tipo){
             Random r = new Random();
             this.size = r.nextInt(6-1) + 1;
+            System.out.println(size);
         }
     }
 
@@ -23,6 +24,14 @@ public class Alimento extends Jugable {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    @Override
+    public Bacteria comerEsteObjeto(Bacteria bacteriaQueAtaca, Aumentos aumentos){
+        Bacteria bacteriaTemporal = new Bacteria();
+
+        return bacteriaTemporal;
+        
     }
 
     
