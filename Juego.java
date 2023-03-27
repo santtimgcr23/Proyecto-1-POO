@@ -3,11 +3,13 @@ import java.util.Random;
 
 public class Juego{
     private Tablero tablero;
+    private Boton[][] mapa;
     private Jugador jugador;
     private Aumentos aumentos;
 
     public Juego(){
         this.tablero = new Tablero();
+        this.mapa = tablero.getMapa();
         this.aumentos = new Aumentos();
         colocarValoresAumentos();
     }
@@ -63,8 +65,8 @@ public class Juego{
             else{
                 AlimentoVelocidad aV = new AlimentoVelocidad();
                 bA.setJugable(aV);
-                bA.setBackground(Color.YELLOW);
-            }
+                bA.setBackground(Color.CYAN);
+                }
             }
         }
     
@@ -77,7 +79,75 @@ public class Juego{
             }
             Bacteria b = new Bacteria();
             bA.setJugable(b);
+            bA.setTipo("NPC");
             bA.setBackground(Color.BLUE);
+        }
+    }
+
+    public int movRandom(){
+        Random r = new Random();
+        return r.nextInt(5-1)+1;
+    }
+
+    public void reposBoton(Boton nuevo, Boton viejo){
+        nuevo.setJugable(viejo.jugable);
+        nuevo.setBackground(Color.BLUE);
+    }
+
+    //mover los NPC
+    public void reposicionarNPC(){
+        for (int i = 0; i < 50; i++){
+            for (int j = 0; j < 50; j++){
+                Boton b = mapa[i][j];
+                if (b.getTipo() == "NPC"){
+                    //ver a que direccion se mueve 1 = ARRIBA, 2 = ABAJO, 3= IZQUIERDA, 4 = DERECHA
+                    int dir = movRandom();
+                    if (dir == 1){
+                        if (i+1 != 50){
+                        Boton nuevo = mapa[i+1][j];
+                        if (nuevo.jugable == null){
+                            reposBoton(nuevo, b);
+                            eliminarObjetoComido(i, j);
+                        }}
+                    }
+                    else if (dir == 2){
+                        if (i-1 != -1){
+                        Boton nuevo = mapa[i-1][j];
+                        if (nuevo.jugable == null){
+                            reposBoton(nuevo, b);
+                            eliminarObjetoComido(i, j);
+                        }}
+                    }
+                    else if (dir == 3){
+                        if (j + 1 != 50){
+                        Boton nuevo = mapa[i][j+1];
+                        if (nuevo.jugable == null){
+                            reposBoton(nuevo, b);
+                            eliminarObjetoComido(i, j);
+                            }
+                        }
+                    }
+                    else{
+                        if(j-1 != -1){
+                        Boton nuevo = mapa[i][j-1];
+                        if (nuevo.jugable == null){
+                            reposBoton(nuevo, b);
+                            eliminarObjetoComido(i, j);
+                        }}
+                    }
+                }
+            }
+        }
+    }
+    
+    public void borrarViejos(){
+        for (int i = 0; i < 50; i++){
+            for (int j = 0; j < 50; j++){
+                if (mapa[i][j].eliminable){
+                    mapa[i][j].jugable = null;
+                    mapa[i][j].setBackground(new java.awt.Color(153, 255, 153));
+                }
+            }
         }
     }
 
@@ -210,6 +280,7 @@ public class Juego{
             if(casillasPorMover <= jugador.getBacteriaJ().getVelocidad()){
                 int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
                 jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
                 return true;
             }
             return false;
@@ -225,24 +296,21 @@ public class Juego{
 
         jugador.getBacteriaJ().setPosicionX(xPorMover);
         jugador.getBacteriaJ().setPosicionY(yPorMover);
-
+        
         tablero.getMapa()[xPorMover][yPorMover].jugable = jugador.getBacteriaJ();
 
-        // ACTUALIZAR VISUALEMENTE
         tablero.getMapa()[xAnterior][yAnterior].setBackground(new java.awt.Color(153, 255, 153));
         tablero.getMapa()[xPorMover][yPorMover].setBackground(Color.MAGENTA);
 
     }
 
-    //---------------------------------------------------------------------------------------------------------------
-    // SIMULACION NPCS
-    // BOTON SIMULAR
     public void simularNPC(){
         jugador.setTurnoTerminado(false);
         realizarAccionesNPCs();
     }
 
     public void realizarAccionesNPCs(){
+        reposicionarNPC();
         aumentarEdadTodasLasBacterias();
         
     }

@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        MainScreen ms = new MainScreen();
+        Aumentos a = new Aumentos();
+        MainScreen ms = new MainScreen(a);
         ms.setVisible(true);
     }
 }

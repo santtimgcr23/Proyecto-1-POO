@@ -68,6 +68,7 @@ public class GameScreen extends javax.swing.JFrame{
         jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(51, 0, 102));
         jButton4.setText("SIMULAR");
+        
 
         ActionListener accion = new ActionListener() {
             @Override
@@ -78,6 +79,7 @@ public class GameScreen extends javax.swing.JFrame{
         };
 
         jButton4.addActionListener(accion);
+
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

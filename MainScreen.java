@@ -1,11 +1,9 @@
 
 public class MainScreen extends javax.swing.JFrame{
-    private int incEnergia = 1;
-    private int incVision = 1;
-    private int incVeloc = 1;
-    private int incEdad = 1;
-    
-    public MainScreen() {
+    private Aumentos aumentos;
+
+    public MainScreen(Aumentos aumentos) {
+        this.aumentos = aumentos;
         setTitle("Microbia");
         initComponents();
     }                       
@@ -128,54 +126,11 @@ public class MainScreen extends javax.swing.JFrame{
     }                                        
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        SettingsScreen ss = new SettingsScreen();
+        SettingsScreen ss = new SettingsScreen(aumentos);
         ss.setVisible(true);
         this.dispose();
     }                                           
-
-    public int getIncEnergia() {
-        return incEnergia;
-    }
-
-    public void setIncEnergia(int incEnergia) {
-        this.incEnergia = incEnergia;
-    }
-
-    public int getIncVision() {
-        return incVision;
-    }
-
-    public void setIncVision(int incVision) {
-        this.incVision = incVision;
-    }
-
-    public int getIncVeloc() {
-        return incVeloc;
-    }
-
-    public void setIncVeloc(int incVeloc) {
-        this.incVeloc = incVeloc;
-    }
-
-    public int getIncEdad() {
-        return incEdad;
-    }
-
-    public void setIncEdad(int incEdad) {
-        this.incEdad = incEdad;
-    }
-
-    @Override
-    public String toString() {
-        return "MainScreen{" + "incEnergia=" + incEnergia + ", incVision=" + incVision + ", incVeloc=" + incVeloc + ", incEdad=" + incEdad + '}';
-    }
     
-    
-    
-    
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -198,14 +153,8 @@ public class MainScreen extends javax.swing.JFrame{
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainScreen().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify                     

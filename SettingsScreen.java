@@ -1,11 +1,9 @@
 import javax.swing.JOptionPane;
 
 public class SettingsScreen extends javax.swing.JFrame {
-
-    /**
-     * Creates new form SettingsScreen
-     */
-    public SettingsScreen() {
+    Aumentos aumentos;
+    public SettingsScreen(Aumentos aumentos){
+        this.aumentos = aumentos;
         setTitle("Configuración");
         initComponents();
     }
@@ -179,11 +177,11 @@ public class SettingsScreen extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {                                           
         if (verificarValores()){
-            MainScreen ms = new MainScreen();
-            ms.setIncEnergia(Integer.valueOf(txtEnergia.getText()));
-            ms.setIncVision(Integer.valueOf(txtVision.getText()));
-            ms.setIncVeloc(Integer.valueOf(txtVelocidad.getText()));
-            ms.setIncEdad(Integer.valueOf(txtEdad.getText()));
+            aumentos.setCambiosEnergia(Integer.valueOf(txtEnergia.getText()));
+            aumentos.setCambiosVision(Integer.valueOf(txtVision.getText()));
+            aumentos.setCambiosVelocidad(Integer.valueOf(txtVelocidad.getText()));
+            aumentos.setCambiosEdad(Integer.valueOf(txtEdad.getText()));
+            MainScreen ms = new MainScreen(aumentos);
             ms.setVisible(true);
             this.dispose();
         }
@@ -240,14 +238,6 @@ public class SettingsScreen extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SettingsScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SettingsScreen().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify                     
