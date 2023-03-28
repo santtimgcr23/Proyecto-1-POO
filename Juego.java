@@ -84,72 +84,54 @@ public class Juego{
         }
     }
 
-    public int movRandom(){
+    public int getPasosNPC(Bacteria bacteria){
         Random r = new Random();
-        return r.nextInt(5-1)+1;
-    }
-
-    public void reposBoton(Boton nuevo, Boton viejo){
-        nuevo.setJugable(viejo.jugable);
-        nuevo.setBackground(Color.BLUE);
+        return r.nextInt(bacteria.getVelocidad() - 0) + 0;
     }
 
     //mover los NPC
     public void reposicionarNPC(){
-        for (int i = 0; i < 50; i++){
-            for (int j = 0; j < 50; j++){
-                Boton b = mapa[i][j];
-                if (b.getTipo() == "NPC"){
-                    //ver a que direccion se mueve 1 = ARRIBA, 2 = ABAJO, 3= IZQUIERDA, 4 = DERECHA
-                    int dir = movRandom();
-                    if (dir == 1){
-                        if (i+1 != 50){
-                        Boton nuevo = mapa[i+1][j];
-                        if (nuevo.jugable == null){
-                            reposBoton(nuevo, b);
-                            eliminarObjetoComido(i, j);
-                        }}
-                    }
-                    else if (dir == 2){
-                        if (i-1 != -1){
-                        Boton nuevo = mapa[i-1][j];
-                        if (nuevo.jugable == null){
-                            reposBoton(nuevo, b);
-                            eliminarObjetoComido(i, j);
-                        }}
-                    }
-                    else if (dir == 3){
-                        if (j + 1 != 50){
-                        Boton nuevo = mapa[i][j+1];
-                        if (nuevo.jugable == null){
-                            reposBoton(nuevo, b);
-                            eliminarObjetoComido(i, j);
-                            }
+            for (int i = 0; i < mapa.length; i++) {
+                for (int j = 0; j < mapa[0].length; j++) {
+                    if (mapa[i][j].jugable instanceof Bacteria && !(mapa[i][j].jugable instanceof BacteriaJ)) {
+                        int direccion = (int) (Math.random() * 4); // 0: arriba, 1: derecha, 2: abajo, 3: izquierda
+                        int nuevaFila = i, nuevaColumna = j;
+                        Bacteria bacteria = (Bacteria) mapa[i][j].jugable;
+                        int pasos = getPasosNPC(bacteria);
+                        bacteria.setVelocidad(bacteria.getVelocidad() - pasos);
+                        switch (direccion) {
+                            case 0: // arriba
+                                if (i - pasos > -1 && i > 0 && mapa[i - pasos][j].jugable == null) {
+                                    nuevaFila = i - pasos;
+                                }
+                                break;
+                            case 1: // derecha
+                                if (j + pasos < 50 && j < mapa[0].length - 1 && mapa[i][j + pasos].jugable == null) {
+                                    nuevaColumna = j + pasos;
+                                }
+                                break;
+                            case 2: // abajo
+                                if (i + pasos < 50 && i < mapa.length - 1 && mapa[i + pasos][j].jugable == null) {
+                                    nuevaFila = i + pasos;
+                                }
+                                break;
+                            case 3: // izquierda
+                                if (j - pasos > -1 && j > 0 && mapa[i][j - pasos].jugable == null) {
+                                    nuevaColumna = j - pasos;
+                                }
+                                break;
+                        }
+                        if (nuevaFila != i || nuevaColumna != j) {
+                            mapa[nuevaFila][nuevaColumna].jugable = mapa[i][j].jugable;
+                            mapa[i][j].jugable = null;
+                            mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
+                            mapa[i][j].setBackground(new java.awt.Color(153, 255, 153));
                         }
                     }
-                    else{
-                        if(j-1 != -1){
-                        Boton nuevo = mapa[i][j-1];
-                        if (nuevo.jugable == null){
-                            reposBoton(nuevo, b);
-                            eliminarObjetoComido(i, j);
-                        }}
-                    }
                 }
             }
         }
-    }
-    
-    public void borrarViejos(){
-        for (int i = 0; i < 50; i++){
-            for (int j = 0; j < 50; j++){
-                if (mapa[i][j].eliminable){
-                    mapa[i][j].jugable = null;
-                    mapa[i][j].setBackground(new java.awt.Color(153, 255, 153));
-                }
-            }
-        }
-    }
+
 
     // se coloca un solo NPC en una posicion Aleatoria
     public void colocarUnNPCAleatorio(){
@@ -312,7 +294,6 @@ public class Juego{
     public void realizarAccionesNPCs(){
         reposicionarNPC();
         aumentarEdadTodasLasBacterias();
-        
     }
 
     public void aumentarEdadTodasLasBacterias(){
