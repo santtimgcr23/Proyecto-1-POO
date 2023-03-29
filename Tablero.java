@@ -14,9 +14,10 @@ public class Tablero{
     public void crearMapa(){
         for (int i = 0; i < mapa.length; i++){
             for (int j = 0; j < mapa[i].length; j++){
-            mapa[i][j] = new Boton();
+            mapa[i][j] = new Boton(i,j);
             mapa[i][j].setBackground(new java.awt.Color(153, 255, 153));
             mapa[i][j].setSize(1,2);
+            mapa[i][j].setTipo("NULL");
             mapa[i][j].setBorder(new LineBorder(Color.BLACK));
             }
         }
