@@ -7,6 +7,7 @@ public class Bacteria extends Jugable {
     private int edad = 1;
     private int posicionX = 0;
     private int posicionY = 0;
+    private boolean bacteriaGanoCombate = true;
     
     public Bacteria(){}
 
@@ -76,6 +77,14 @@ public class Bacteria extends Jugable {
         this.posicionY = posiciony;
     }
 
+    public boolean getBacteriaGanoCombate(){
+        return bacteriaGanoCombate;
+    }
+
+    public void setBacteriaGanoCombate(boolean bacteriaGanoCombate){
+        this.bacteriaGanoCombate = bacteriaGanoCombate;
+    }
+
     @Override
     public Bacteria comerEsteObjeto(Bacteria bacteriaQueAtaca, Aumentos aumentos){
         int mitadEnergia = this.getEnergia() / 2;
@@ -85,13 +94,65 @@ public class Bacteria extends Jugable {
         int nuevaEnergia = mitadEnergia + bacteriaQueAtaca.getEnergia();
         int nuevaVision = mitadVision + bacteriaQueAtaca.getVision();
         int nuevaVelocidad = mitadVelocidad + bacteriaQueAtaca.getVelocidad();
+        if(determinarGanadorBatalla(bacteriaQueAtaca, aumentos) == true){
+            bacteriaQueAtaca.setEnergia(nuevaEnergia);
+            bacteriaQueAtaca.setVision(nuevaVision);
+            bacteriaQueAtaca.setVelocidad(nuevaVelocidad);
 
-        bacteriaQueAtaca.setEnergia(nuevaEnergia);
-        bacteriaQueAtaca.setVision(nuevaVision);
-        bacteriaQueAtaca.setVelocidad(nuevaVelocidad);
+            return bacteriaQueAtaca;
+        }
+        else{
+            this.setEnergia(nuevaEnergia);
+            this.setVision(nuevaVision);
+            this.setVelocidad(nuevaVelocidad);
+            bacteriaQueAtaca.setBacteriaGanoCombate(false);
+            return bacteriaQueAtaca;
+        }
+    }
 
-        return bacteriaQueAtaca;
+    public boolean determinarGanadorBatalla(Bacteria bacteriaQueAtaca, Aumentos aumentos){ //si retorna true el atacante gana, si es false el atacado gana
+        // comparar energia
+        int energiaAtacante = bacteriaQueAtaca.getEnergia();
+        int energiaAtacado = this.getEnergia();
+        if(energiaAtacante > energiaAtacado){
+            return true;
+        }
+        else if(energiaAtacante < energiaAtacado){
+            System.out.println("Energia atacado: " + energiaAtacado);
+            return false;
+        }
+
+        // comparar velocidad
+        int velocidadAtacante = bacteriaQueAtaca.getVelocidad();
+        int velocidadAtacado = this.getVelocidad();
+        if(velocidadAtacante > velocidadAtacado){
+            return true;
+        }
+        else if(velocidadAtacante < velocidadAtacado){
+            return false;
+        }
+
+        // comparar edad
+        int edadAtacante = bacteriaQueAtaca.getEdad();
+        int edadAtacado = this.getEdad();
+        if(edadAtacante > edadAtacado){
+            return true;
+        }
+        else if(edadAtacante < edadAtacado){
+            return false;
+        }
         
+        // elegir ganador aleatoriamente
+        int numeroAleatorio = (int)(Math.random()*2+1);
+        if(numeroAleatorio == 1){
+            System.out.println("NUMERO 1");
+            return true;
+        }
+        else{
+            System.out.println("NUMERO 2");
+            return false;
+        }
+
     }
 
     @Override
