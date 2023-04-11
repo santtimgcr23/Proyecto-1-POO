@@ -207,12 +207,6 @@ public class Juego{
         }
     }
 
-    public void moverCampoVision(int x, int y){
-        pintarNegro();
-        crearCampoVision(x, y);
-        pintar();
-    }
-
     // se coloca un solo NPC en una posicion Aleatoria
     public void colocarUnNPCAleatorio(){
         Boton bA = tablero.getMapa()[indexRandom()][indexRandom()];
@@ -248,7 +242,6 @@ public class Juego{
                 // SE MUEVE EL JUGADOR
                 if(esPosibleMoverJugador(xSeleccionada, ySeleccionada) == true){
                     moverJugador(xSeleccionada, ySeleccionada);
-                    moverCampoVision(xSeleccionada, ySeleccionada);
                 }
                 else{
                     System.out.println("EL JUGADOR NO SE PUEDE MOVER");
@@ -495,7 +488,7 @@ public class Juego{
 
         setJugadorX(xPorMover); setJugadorY(yPorMover);
 
-        moverCampoVision(xPorMover, yPorMover);
+        //moverCampoVision(xPorMover, yPorMover);
 
     }
 
