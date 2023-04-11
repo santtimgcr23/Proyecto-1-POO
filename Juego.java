@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class Juego{
     private Tablero tablero;
-    private int jugadorX;
-    private int jugadorY;
     private Boton[][] mapa;
     private Jugador jugador;
     private Aumentos aumentos;
@@ -39,22 +37,6 @@ public class Juego{
         return x;
     }
 
-    public int getJugadorX() {
-        return jugadorX;
-    }
-
-    public void setJugadorX(int jugadorX) {
-        this.jugadorX = jugadorX;
-    }
-
-    public int getJugadorY() {
-        return jugadorY;
-    }
-
-    public void setJugadorY(int jugadorY) {
-        this.jugadorY = jugadorY;
-    }
-
     //-----------------------------------------------------------------------------------------------------------------------------
     // COLOCAR LOS OBJETOS EN EL MAPA
     // colocar la bacteria jugador
@@ -63,13 +45,10 @@ public class Juego{
         int y = indexRandom();
         Boton bJ = tablero.getMapa()[x][y];
         bJ.setBackground(Color.MAGENTA);
-        bJ.setTipo("J");
-        bJ.seTieneQueVer = true;
         bJ.setJugable(jugador.getBacteriaJ());
         jugador.getBacteriaJ().setPosicionX(x);
         jugador.getBacteriaJ().setPosicionY(y);
-        setJugadorX(x); setJugadorY(y);
-        
+
     }
 
     // colocar todos los alimentos
@@ -82,13 +61,11 @@ public class Juego{
             if(numRandom2() == 1){
                 AlimentoVision aV = new AlimentoVision();
                 bA.setJugable(aV);
-                bA.setTipo("AVI");
                 bA.setBackground(Color.YELLOW);
             }
             else{
                 AlimentoVelocidad aV = new AlimentoVelocidad();
                 bA.setJugable(aV);
-                bA.setTipo("AVE");
                 bA.setBackground(Color.CYAN);
                 }
             }
@@ -150,58 +127,14 @@ public class Juego{
                         if (nuevaFila != i || nuevaColumna != j) {
                             mapa[nuevaFila][nuevaColumna].jugable = mapa[i][j].jugable;
                             mapa[i][j].jugable = null;
-                            if (mapa[nuevaFila][nuevaColumna].seTieneQueVer == true){
                             mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
-                            }
-                            else {
-                                mapa[nuevaFila][nuevaColumna].setBackground(Color.BLACK);
-                            }
-                            if (mapa[i][j].seTieneQueVer == true){
-                                mapa[i][j].setBackground(new java.awt.Color(153,255,153));
-                            }
-                            else{
-                            mapa[i][j].setBackground(Color.BLACK);}
+                            mapa[i][j].setBackground(new java.awt.Color(153, 255, 153));
                         }
                     }
                 }
             }
         }
 
-    public void pintar(){
-        for(int i = 0; i < mapa.length; i++){
-            for(int j = 0; j < mapa[0].length; j++){
-                mapa[i][j].pintarDeSuColor();
-            }}}
-
-    
-    public void crearCampoVision(int x, int y){
-        BacteriaJ bJ = (BacteriaJ)mapa[x][y].jugable;
-        int vision = bJ.getVision();
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
-                // Si el Botón está dentro del cuadrado de visión, lo pintamos de blanco
-                if (i >= x - vision && i <= x + vision && j >= y - vision && j <= y + vision) {
-                    mapa[i][j].setSeTieneQueVer(true);
-                } else {
-                    // Si no, lo pintamos de negro
-                    mapa[i][j].setSeTieneQueVer(false);
-                }
-        pintar();
-    }}}
-
-    public void pintarNegro(){
-        for (int i = 0; i < mapa.length; i++){
-            for (int j = 0; j < mapa[i].length; j++){
-                mapa[i][j].setBackground(Color.BLACK);
-            }
-        }
-    }
-
-    public void moverCampoVision(int x, int y){
-        pintarNegro();
-        crearCampoVision(x, y);
-        pintar();
-    }
 
     // se coloca un solo NPC en una posicion Aleatoria
     public void colocarUnNPCAleatorio(){
@@ -238,7 +171,6 @@ public class Juego{
                 // SE MUEVE EL JUGADOR
                 if(esPosibleMoverJugador(xSeleccionada, ySeleccionada) == true){
                     moverJugador(xSeleccionada, ySeleccionada);
-                    moverCampoVision(xSeleccionada, ySeleccionada);
                 }
                 else{
                     System.out.println("EL JUGADOR NO SE PUEDE MOVER");
@@ -478,10 +410,6 @@ public class Juego{
 
         tablero.getMapa()[xAnterior][yAnterior].setBackground(new java.awt.Color(153, 255, 153));
         tablero.getMapa()[xPorMover][yPorMover].setBackground(Color.MAGENTA);
-        tablero.getMapa()[xPorMover][yPorMover].setTipo("J");
-        tablero.getMapa()[xAnterior][yAnterior].setTipo("");
-
-        setJugadorX(xPorMover); setJugadorY(yPorMover);
 
     }
 
