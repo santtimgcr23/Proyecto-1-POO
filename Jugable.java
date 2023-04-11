@@ -24,9 +24,5 @@ public abstract class Jugable {
 
     }
 
-    public void comerNPC(){
-        System.out.println("eso wazin");
-    }
-
 
 }

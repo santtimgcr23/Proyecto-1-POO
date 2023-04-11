@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Juego{
@@ -90,7 +89,6 @@ public class Juego{
         return r.nextInt(bacteria.getVelocidad() - 0) + 0;
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //mover los NPC
     public void reposicionarNPC(){
             for (int i = 0; i < mapa.length; i++) {
@@ -101,7 +99,6 @@ public class Juego{
                         Bacteria bacteria = (Bacteria) mapa[i][j].jugable;
                         int pasos = getPasosNPC(bacteria);
                         bacteria.setVelocidad(bacteria.getVelocidad() - pasos);
-                        bacteria.setEnergia(bacteria.getEnergia() - pasos);
                         switch (direccion) {
                             case 0: // arriba
                                 if (i - pasos > -1 && i > 0 && mapa[i - pasos][j].jugable == null) {
@@ -165,7 +162,7 @@ public class Juego{
 
 
     // ANALIZA SI EL JUGADOR SE MUEVE O COME
-    public void determinarAccionJugador(int xSeleccionada, int ySeleccionada){
+    public void organizadorMoverJugador(int xSeleccionada, int ySeleccionada){
         if(jugador.getTurnoTerminado() == false){
             if(estaVaciaCasilla(xSeleccionada, ySeleccionada) == true){
                 // SE MUEVE EL JUGADOR
@@ -199,6 +196,7 @@ public class Juego{
 
     }
 
+
     public boolean esPosibleComerDistancia(int xSeleccionada, int ySeleccionada){
         int xJugador = jugador.getBacteriaJ().getPosicionX();
         int yJugador = jugador.getBacteriaJ().getPosicionY();
@@ -211,132 +209,11 @@ public class Juego{
         return false;
     }
 
-    public void analizarComerCasillaNCP(int xPorComer, int yPorComer, int xAtacante, int yAtacante){
-        intentarComerCasillaNPC(xPorComer, yPorComer, xAtacante, yAtacante);
-    }
-
-    public void intentarComerCasillaNPC(int xPorComer, int yPorComer, int xAtacante, int yAtacante){
-        Bacteria bacteriaAtacante = (Bacteria) tablero.getMapa()[xAtacante][yPorComer].jugable;
-        Bacteria nuevaBacteria = tablero.getMapa()[xPorComer][yPorComer].jugable.comerEsteObjeto(bacteriaAtacante, aumentos);
-        boolean bacteriaAtacanteGano = nuevaBacteria.getBacteriaGanoCombate();
-        if(bacteriaAtacanteGano == true){
-            colocarNuevoObjetoEnElmapa(xPorComer, yPorComer);
-            eliminarObjetoComido(xPorComer, yPorComer);
-            System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOOOOOOO");
-        }
-        else{
-
-        }
-    }
-
     public void intentarComerCasilla(int xSeleccionada, int ySeleccionada){
         Bacteria nuevaBacteria = tablero.getMapa()[xSeleccionada][ySeleccionada].jugable.comerEsteObjeto(this.jugador.getBacteriaJ(), aumentos);
-        boolean bacteriaAtacanteGano = nuevaBacteria.getBacteriaGanoCombate();
-        if(bacteriaAtacanteGano == true){
-            actualizarDatosBacteriaJugador(nuevaBacteria);
-            colocarNuevoObjetoEnElmapa(xSeleccionada, ySeleccionada);
-            eliminarObjetoComido(xSeleccionada, ySeleccionada);
-            System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOO!");
-        }
-        else{
-
-            System.out.println("LA BACTERIA ATACANTE PERDIO");
-        }
-
-    }
-
-    //ES POSIBLE COMER PARA UN NPC
-    public boolean esPosibleComerNPC(int xNPC, int yNPC){
-        int xPorRevisar;
-        int yPorRevisar;
-        // revisar arriba
-        xPorRevisar = xNPC - 1;
-        yPorRevisar = yNPC;
-        if(xPorRevisar >= 0){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                return true;
-            }
-        }
-        // revisar izquierda
-        xPorRevisar = xNPC;
-        yPorRevisar = yNPC - 1;
-        if(yPorRevisar >= 0){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                return true;
-            }
-        }
-        //revisar derecha
-        xPorRevisar = xNPC;
-        yPorRevisar = yNPC + 1;
-        if(yPorRevisar < 50){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                return true;
-            }
-        }
-        // revisar abajo
-        xPorRevisar = xNPC + 1;
-        yPorRevisar = yNPC;
-        if(xPorRevisar < 50){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //OBTIENE LA POSICION QUE VA A SER ATACADA POR UN NPC
-    public ArrayList<Integer> obtenerPosicionPorComerDeNPC(int xNPC, int yNPC){
-        ArrayList<Integer> posicionPorComerPorNPC = new ArrayList<>();
-        int xPorRevisar;
-        int yPorRevisar;
-        // revisar arriba
-        xPorRevisar = xNPC - 1;
-        yPorRevisar = yNPC;
-        if(xPorRevisar >= 0){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                posicionPorComerPorNPC.add(xPorRevisar);
-                posicionPorComerPorNPC.add(yPorRevisar);
-                return posicionPorComerPorNPC;
-            }
-        }
-        // revisar izquierda
-        xPorRevisar = xNPC;
-        yPorRevisar = yNPC - 1;
-        if(yPorRevisar >= 0){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                posicionPorComerPorNPC.add(xPorRevisar);
-                posicionPorComerPorNPC.add(yPorRevisar);
-                return posicionPorComerPorNPC;
-            }
-        }
-        //revisar derecha
-        xPorRevisar = xNPC;
-        yPorRevisar = yNPC + 1;
-        if(yPorRevisar < 50){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                posicionPorComerPorNPC.add(xPorRevisar);
-                posicionPorComerPorNPC.add(yPorRevisar);
-                return posicionPorComerPorNPC;
-            }
-        }
-        // revisar abajo
-        xPorRevisar = xNPC + 1;
-        yPorRevisar = yNPC;
-        if(xPorRevisar < 50){
-            if(esPosibleComerPosicionEspecifica(xPorRevisar, yPorRevisar) == true){
-                posicionPorComerPorNPC.add(xPorRevisar);
-                posicionPorComerPorNPC.add(yPorRevisar);
-                return posicionPorComerPorNPC;
-            }
-        }
-        return posicionPorComerPorNPC;
-    }
-
-    public boolean esPosibleComerPosicionEspecifica(int xPorRevisar, int yPorRevisar){
-        if(tablero.getMapa()[xPorRevisar][yPorRevisar].jugable != null){
-            return true;
-        }
-        return false;
+        actualizarDatosBacteriaJugador(nuevaBacteria);
+        colocarNuevoObjetoEnElmapa(xSeleccionada, ySeleccionada);
+        eliminarObjetoComido(xSeleccionada, ySeleccionada);
     }
 
     public void colocarNuevoObjetoEnElmapa(int xSeleccionada, int ySeleccionada){
@@ -364,10 +241,6 @@ public class Juego{
         int y = jugador.getBacteriaJ().getPosicionY();
 
         tablero.getMapa()[x][y].jugable = jugador.getBacteriaJ();
-    }
-
-    public void actualizarDatosBacteriaGanadora(Bacteria nuevaBacteria, int xGanadora, int yGanadora){
-        
     }
 
     public boolean estaVaciaCasilla(int xPorMover, int yPorMover){
@@ -413,17 +286,13 @@ public class Juego{
 
     }
 
-    //----------------------------------------------------------------------------------------------------------------------------------------------------
-    // SIMULACION DEL NPC
-
-    public void simulacionNPC(){
+    public void simularNPC(){
         jugador.setTurnoTerminado(false);
         realizarAccionesNPCs();
     }
 
     public void realizarAccionesNPCs(){
         reposicionarNPC();
-        NPCComen();
         aumentarEdadTodasLasBacterias();
     }
 
@@ -436,36 +305,4 @@ public class Juego{
             }
         }
     }
-
-    //----------------------------------------------------------------------------------------------------------------------------------------------------------
-    // accion de comer los NPC
-    public void NPCComen(){
-        for(int i = 0; i < 50; i++){
-            for(int j = 0; j<50; j++){
-                if(tablero.getMapa()[i][j].jugable != null){
-                    if(esPosibleComerNPC(i, j) == true){ //si es true el npc come
-                        ArrayList <Integer> arraylistPosicionPorComer = obtenerPosicionPorComerDeNPC(i, j);
-                        int xPorComer = arraylistPosicionPorComer.get(0);
-                        int yPorComer = arraylistPosicionPorComer.get(1);
-                        analizarComerCasillaNCP(xPorComer, yPorComer, i, j);
-                    }
-                }
-            }
-        }
-    }
-
-
-    //*******************************************************************************************************************************************************************************
-    // Imprimir cosas
-
-    public void imprimirMapa(){
-        for(int i = 0; i<50; i++){
-            for(int j= 0; j<50;j++){
-                System.out.print(tablero.getMapa()[i][j].jugable);
-                System.out.print(", ");
-            }
-            System.out.println();
-            }
-        }
-
 }
