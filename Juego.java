@@ -154,13 +154,13 @@ public class Juego{
                             mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
                             }
                             else {
-                                mapa[nuevaFila][nuevaColumna].setBackground(Color.BLACK);
+                                mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);//CAMBIAR A Color.BLACK
                             }
                             if (mapa[i][j].seTieneQueVer == true){
                                 mapa[i][j].setBackground(new java.awt.Color(153,255,153));
                             }
                             else{
-                            mapa[i][j].setBackground(Color.BLACK);}
+                            mapa[i][j].setBackground(new java.awt.Color(153,255,153));}//CAMBIAR A Color.BLACK
                         }
                     }
                 }
