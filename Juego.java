@@ -189,6 +189,16 @@ public class Juego{
         pintar();
     }}}
 
+    public boolean estaEnCampo(int i, int j){
+        int x = jugadorX;
+        int y = jugadorY;
+        BacteriaJ bJ = (BacteriaJ)mapa[x][y].jugable;
+        int vision = bJ.getVision();
+        if (i >= x - vision && i <= x + vision && j >= y - vision && j <= y + vision) {
+            return true;
+        }
+        return false;}
+
     public void pintarNegro(){
         for (int i = 0; i < mapa.length; i++){
             for (int j = 0; j < mapa[i].length; j++){
@@ -304,6 +314,7 @@ public class Juego{
             actualizarDatosBacteriaJugador(nuevaBacteria);
             colocarNuevoObjetoEnElmapa(xSeleccionada, ySeleccionada);
             eliminarObjetoComido(xSeleccionada, ySeleccionada);
+            moverJugador(xSeleccionada, ySeleccionada);
             System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOO!");
         }
         else{
@@ -410,10 +421,11 @@ public class Juego{
     public void colocarNuevoObjetoEnElmapa(int xSeleccionada, int ySeleccionada){
         Jugable nuevoObjeto = tablero.getMapa()[xSeleccionada][ySeleccionada].jugable.objetoPorColocar();
         Color colorPorColocar = tablero.getMapa()[xSeleccionada][ySeleccionada].jugable.colorCasilla();
-
-        Boton bA = tablero.getMapa()[indexRandom()][indexRandom()];
+        int xR = indexRandom(); int yR = indexRandom();
+        Boton bA = tablero.getMapa()[xR][yR];
         while(bA.getJugable() != null){
-            bA = tablero.getMapa()[indexRandom()][indexRandom()];
+            xR = indexRandom();yR = indexRandom();
+            bA = tablero.getMapa()[xR][yR];
         }
         bA.setJugable(nuevoObjeto);
         bA.setBackground(colorPorColocar);
@@ -482,6 +494,8 @@ public class Juego{
         tablero.getMapa()[xAnterior][yAnterior].setTipo("");
 
         setJugadorX(xPorMover); setJugadorY(yPorMover);
+
+        moverCampoVision(xPorMover, yPorMover);
 
     }
 
