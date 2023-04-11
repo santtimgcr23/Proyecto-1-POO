@@ -28,5 +28,13 @@ public abstract class Jugable {
         System.out.println("eso wazin");
     }
 
+    public boolean esPosibleObjetoQueComa(){
+        return true;
+    }
+
+    public void imprimirInformacionObjeto(){
+        
+    }
+
 
 }
