@@ -39,7 +39,7 @@ public abstract class Jugable {
     public void imprimirInformacionObjeto(){
         
     }
-
+///CAMBIOS SUGERIDOS POR GITHUB
 
     public void setPosX(int posX) {
         this.posX = posX;
