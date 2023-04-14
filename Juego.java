@@ -525,10 +525,59 @@ public int buscarDireccionMasCercana(int fila, int columna) {
         
         if(casillasPorMover == 1){
             if(casillasPorMover <= jugador.getBacteriaJ().getVelocidad()){
-                int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
-                jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
-                jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
-                return true;
+                if(jugador.getDireccionMovimiento() == 0){
+                    if(xPorMover > x){
+                        jugador.setDireccionMovimiento(3);
+                    }
+                    if(xPorMover < x){
+                        jugador.setDireccionMovimiento(1);
+                    }
+                    if(yPorMover > y){
+                        jugador.setDireccionMovimiento(2);
+                    }
+                    if(yPorMover < y){
+                        jugador.setDireccionMovimiento(4);
+                    }
+                    int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
+                    jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                    jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
+                    return true;
+                }
+                else{
+                    if(jugador.getDireccionMovimiento() == 1){
+                        if(xPorMover < x){
+                            int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
+                            jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                            jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
+                            return true;
+                        }
+                    }
+                    if(jugador.getDireccionMovimiento() == 2){
+                        if(yPorMover > y){
+                            int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
+                            jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                            jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
+                            return true;
+                        }
+                    }
+                    if(jugador.getDireccionMovimiento() == 3){
+                        if(xPorMover > x){
+                            int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
+                            jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                            jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
+                            return true;
+                        }
+                    }
+                    if(jugador.getDireccionMovimiento() == 4){
+                        if(yPorMover < y){
+                            int velocidadPasada = jugador.getBacteriaJ().getVelocidad();
+                            jugador.getBacteriaJ().setVelocidad(velocidadPasada - casillasPorMover);
+                            jugador.getBacteriaJ().setEnergia(jugador.getBacteriaJ().getEnergia() - casillasPorMover);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
             }
             return false;
         }
@@ -562,12 +611,13 @@ public int buscarDireccionMasCercana(int fila, int columna) {
 
     public void simulacionNPC(){
         jugador.setTurnoTerminado(false);
+        jugador.setDireccionMovimiento(0);
         realizarAccionesNPCs();
     }
 
     public void realizarAccionesNPCs(){
         reposicionarNPC();
-        //NPCComen();
+        NPCComen();
         aumentarEdadTodasLasBacterias();
     }
 
