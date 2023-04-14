@@ -27,4 +27,9 @@ public class AlimentoVision extends Alimento{
         Jugable jugable = new AlimentoVision();
         return jugable;
     }
+
+    @Override
+    public boolean esPosibleObjetoQueComa(){
+        return false;
+    }
 }

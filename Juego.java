@@ -307,6 +307,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
             }
         }
         else{
+            tablero.getMapa()[xSeleccionada][ySeleccionada].jugable.imprimirInformacionObjeto();
             System.out.println("EL TURNO YA ACABO!");
         }
     }
@@ -343,7 +344,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
     }
 
     public void intentarComerCasillaNPC(int xPorComer, int yPorComer, int xAtacante, int yAtacante){
-        Bacteria bacteriaAtacante = (Bacteria) tablero.getMapa()[xAtacante][yPorComer].jugable;
+        Bacteria bacteriaAtacante = (Bacteria) tablero.getMapa()[xAtacante][yAtacante].jugable;
         Bacteria nuevaBacteria = tablero.getMapa()[xPorComer][yPorComer].jugable.comerEsteObjeto(bacteriaAtacante, aumentos);
         boolean bacteriaAtacanteGano = nuevaBacteria.getBacteriaGanoCombate();
         if(bacteriaAtacanteGano == true){
@@ -352,7 +353,9 @@ public int buscarDireccionMasCercana(int fila, int columna) {
             System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOOOOOOO");
         }
         else{
-
+            colocarNuevoObjetoEnElmapa(xAtacante, yAtacante);
+            eliminarObjetoComido(xAtacante, yAtacante);
+            System.out.println("ESO WAZIIIIIIIIN PERDIO LA BATALLA D:");
         }
     }
 
@@ -375,6 +378,10 @@ public int buscarDireccionMasCercana(int fila, int columna) {
 
     //ES POSIBLE COMER PARA UN NPC
     public boolean esPosibleComerNPC(int xNPC, int yNPC){
+        boolean esBacteria = tablero.getMapa()[xNPC][yNPC].jugable.esPosibleObjetoQueComa();
+        if(esBacteria == false){
+            return false;
+        }
         int xPorRevisar;
         int yPorRevisar;
         if (mapa[xNPC][yNPC].getTipo() == "NPC"){

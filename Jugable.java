@@ -32,6 +32,14 @@ public abstract class Jugable {
     public int getPosX() {
         return posX;
     }
+    public boolean esPosibleObjetoQueComa(){
+        return true;
+    }
+
+    public void imprimirInformacionObjeto(){
+        
+    }
+
 
     public void setPosX(int posX) {
         this.posX = posX;
