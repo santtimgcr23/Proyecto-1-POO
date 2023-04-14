@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Juego{
     private Tablero tablero;
+    GameScreen gs;
     private int jugadorX;
     private int jugadorY;
     private Boton[][] mapa;
@@ -12,6 +13,7 @@ public class Juego{
 
     public Juego(){
         this.tablero = new Tablero();
+        this.gs = gs;
         this.mapa = tablero.getMapa();
         this.aumentos = new Aumentos();
         colocarValoresAumentos();
@@ -59,8 +61,8 @@ public class Juego{
     // COLOCAR LOS OBJETOS EN EL MAPA
     // colocar la bacteria jugador
     public void posBacteriaJ(){
-        int x = indexRandom();
-        int y = indexRandom();
+        int x = 25;
+        int y = 25;
         Boton bJ = tablero.getMapa()[x][y];
         bJ.setBackground(Color.MAGENTA);
         bJ.setTipo("J");
@@ -75,9 +77,12 @@ public class Juego{
     // colocar todos los alimentos
     public void posAlimento(){
         for (int i = 0; i < 75; i++){
-            Boton bA = tablero.getMapa()[indexRandom()][indexRandom()];
+            int x = indexRandom();
+            int y = indexRandom();
+            Boton bA = tablero.getMapa()[x][y];
             while (bA.getJugable() != null){
-                bA = tablero.getMapa()[indexRandom()][indexRandom()];
+                x = indexRandom();y = indexRandom();
+                bA = tablero.getMapa()[x][y];
             }
             if(numRandom2() == 1){
                 AlimentoVision aV = new AlimentoVision();
@@ -91,20 +96,27 @@ public class Juego{
                 bA.setTipo("AVE");
                 bA.setBackground(Color.CYAN);
                 }
+            bA.jugable.setPosX(x);
+            bA.jugable.setPosY(y);
             }
         }
     
     // colocar todos los NPC
     public void posNPC(){
         for (int i = 0; i < 25; i++){
-            Boton bA = tablero.getMapa()[indexRandom()][indexRandom()];
+            int x = indexRandom();
+            int y = indexRandom();
+            Boton bA = tablero.getMapa()[x][y];
             while (bA.getJugable() != null){
-                bA = tablero.getMapa()[indexRandom()][indexRandom()];
+                x = indexRandom(); y = indexRandom();
+                bA = tablero.getMapa()[x][y];
             }
             Bacteria b = new Bacteria();
             bA.setJugable(b);
             bA.setTipo("NPC");
             bA.setBackground(Color.BLUE);
+            bA.jugable.setPosX(x);
+            bA.jugable.setPosY(y);
         }
     }
 
@@ -113,66 +125,108 @@ public class Juego{
         return r.nextInt(bacteria.getVelocidad() - 0) + 0;
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //mover los NPC
-    public void reposicionarNPC(){
-            for (int i = 0; i < mapa.length; i++) {
-                for (int j = 0; j < mapa[0].length; j++) {
-                    if (mapa[i][j].jugable instanceof Bacteria && !(mapa[i][j].jugable instanceof BacteriaJ)) {
-                        int direccion = (int) (Math.random() * 4); // 0: arriba, 1: derecha, 2: abajo, 3: izquierda
-                        int nuevaFila = i, nuevaColumna = j;
-                        Bacteria bacteria = (Bacteria) mapa[i][j].jugable;
-                        int pasos = getPasosNPC(bacteria);
-                        bacteria.setVelocidad(bacteria.getVelocidad() - pasos);
-                        bacteria.setEnergia(bacteria.getEnergia() - pasos);
-                        switch (direccion) {
-                            case 0: // arriba
-                                if (i - pasos > -1 && i > 0 && mapa[i - pasos][j].jugable == null) {
-                                    nuevaFila = i - pasos;
-                                }
-                                break;
-                            case 1: // derecha
-                                if (j + pasos < 50 && j < mapa[0].length - 1 && mapa[i][j + pasos].jugable == null) {
-                                    nuevaColumna = j + pasos;
-                                }
-                                break;
-                            case 2: // abajo
-                                if (i + pasos < 50 && i < mapa.length - 1 && mapa[i + pasos][j].jugable == null) {
-                                    nuevaFila = i + pasos;
-                                }
-                                break;
-                            case 3: // izquierda
-                                if (j - pasos > -1 && j > 0 && mapa[i][j - pasos].jugable == null) {
-                                    nuevaColumna = j - pasos;
-                                }
-                                break;
+//MOVER LOS NPC
+public void reposicionarNPC(){
+    for (int i = 0; i < mapa.length; i++) {
+        for (int j = 0; j < mapa[0].length; j++) {
+            if (mapa[i][j].jugable instanceof Bacteria && !(mapa[i][j].jugable instanceof BacteriaJ)) {
+                int direccion = buscarDireccionMasCercana(i, j); // 0: arriba, 1: derecha, 2: abajo, 3: izquierda
+                int nuevaFila = i, nuevaColumna = j;
+                Bacteria bacteria = (Bacteria) mapa[i][j].jugable;
+                int pasos = getPasosNPC(bacteria);
+                bacteria.setVelocidad(bacteria.getVelocidad() - pasos);
+                bacteria.setEnergia(bacteria.getEnergia() - pasos);
+                switch (direccion) {
+                    case 0: // arriba
+                        if (i - pasos > -1 && i > 0 && mapa[i - pasos][j].jugable == null) {
+                            nuevaFila = i - pasos;
                         }
-                        if (nuevaFila != i || nuevaColumna != j) {
-                            mapa[nuevaFila][nuevaColumna].jugable = mapa[i][j].jugable;
-                            mapa[i][j].jugable = null;
-                            if (mapa[nuevaFila][nuevaColumna].seTieneQueVer == true){
-                            mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
-                            }
-                            else {
-                                mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);//CAMBIAR A Color.BLACK
-                            }
-                            if (mapa[i][j].seTieneQueVer == true){
-                                mapa[i][j].setBackground(new java.awt.Color(153,255,153));
-                            }
-                            else{
-                            mapa[i][j].setBackground(new java.awt.Color(153,255,153));}//CAMBIAR A Color.BLACK
+                        break;
+                    case 1: // derecha
+                        if (j + pasos < 50 && j < mapa[0].length - 1 && mapa[i][j + pasos].jugable == null) {
+                            nuevaColumna = j + pasos;
                         }
+                        break;
+                    case 2: // abajo
+                        if (i + pasos < 50 && i < mapa.length - 1 && mapa[i + pasos][j].jugable == null) {
+                            nuevaFila = i + pasos;
+                        }
+                        break;
+                    case 3: // izquierda
+                        if (j - pasos > -1 && j > 0 && mapa[i][j - pasos].jugable == null) {
+                            nuevaColumna = j - pasos;
+                        }
+                        break;
+                }
+                if (nuevaFila != i || nuevaColumna != j) {
+                    mapa[nuevaFila][nuevaColumna].jugable = mapa[i][j].jugable;
+                    mapa[i][j].jugable = null;
+                    if (mapa[nuevaFila][nuevaColumna].seTieneQueVer == true){
+                    mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
                     }
+                    else {
+                        mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);//CAMBIAR A Color.BLACK
+                    }
+                    if (mapa[i][j].seTieneQueVer == true){
+                        mapa[i][j].setBackground(new java.awt.Color(153,255,153));
+                    }
+                    else{
+                    mapa[i][j].setBackground(new java.awt.Color(153,255,153));}//CAMBIAR A Color.BLACK
                 }
             }
         }
+    }
+}
+
+public int buscarDireccionMasCercana(int fila, int columna) {
+    int distanciaArriba = 0, distanciaAbajo = 0, distanciaIzq = 0, distanciaDer = 0;
+
+    // Calcular la distancia a la jugable más cercano en cada dirección
+    for (int i = fila - 1; i >= 0; i--) {
+        if (mapa[i][columna].jugable != null) {
+            distanciaArriba = fila - i;
+            break;
+        }
+    }
+    for (int i = fila + 1; i < mapa.length; i++) {
+        if (mapa[i][columna].jugable != null) {
+            distanciaAbajo = i - fila;
+            break;
+        }
+    }
+    for (int j = columna - 1; j >= 0; j--) {
+        if (mapa[fila][j].jugable != null) {
+            distanciaIzq = columna - j;
+            break;
+        }
+    }
+    for (int j = columna + 1; j < mapa[0].length; j++) {
+        if (mapa[fila][j].jugable != null) {
+            distanciaDer = j - columna;
+            break;
+        }
+    }
+
+    // Buscar la distancia más corta
+    int distanciaMinima = Math.min(distanciaArriba, Math.min(distanciaAbajo, Math.min(distanciaIzq, distanciaDer)));
+
+    // Retornar la dirección correspondiente a la distancia más corta
+    if (distanciaMinima == distanciaArriba) {
+        return 0; // arriba
+    } else if (distanciaMinima == distanciaAbajo) {
+        return 1; // abajo
+    } else if (distanciaMinima == distanciaIzq) {
+        return 2; // izquierda
+    } else {
+        return 3; // derecha
+    }
+}
 
     public void pintar(){
         for(int i = 0; i < mapa.length; i++){
             for(int j = 0; j < mapa[0].length; j++){
                 mapa[i][j].pintarDeSuColor();
             }}}
-
     
     public void crearCampoVision(int x, int y){
         BacteriaJ bJ = (BacteriaJ)mapa[x][y].jugable;
@@ -263,6 +317,7 @@ public class Juego{
         if(esPosibleComerDistancia(xSeleccionada, ySeleccionada) == true){
             intentarComerCasilla(xSeleccionada, ySeleccionada);
             jugador.setTurnoTerminado(true);
+
         }
         else{                                                                                 
             System.out.println("JUGADOR NO COME");
@@ -283,7 +338,8 @@ public class Juego{
     }
 
     public void analizarComerCasillaNCP(int xPorComer, int yPorComer, int xAtacante, int yAtacante){
-        intentarComerCasillaNPC(xPorComer, yPorComer, xAtacante, yAtacante);
+        if (mapa[xAtacante][yAtacante].tipo != "AVI" && mapa[xAtacante][yAtacante].tipo != "AVE" && mapa[xAtacante][yAtacante].tipo != "J"){
+        intentarComerCasillaNPC(xPorComer, yPorComer, xAtacante, yAtacante);}
     }
 
     public void intentarComerCasillaNPC(int xPorComer, int yPorComer, int xAtacante, int yAtacante){
@@ -321,6 +377,7 @@ public class Juego{
     public boolean esPosibleComerNPC(int xNPC, int yNPC){
         int xPorRevisar;
         int yPorRevisar;
+        if (mapa[xNPC][yNPC].getTipo() == "NPC"){
         // revisar arriba
         xPorRevisar = xNPC - 1;
         yPorRevisar = yNPC;
@@ -353,6 +410,7 @@ public class Juego{
                 return true;
             }
         }
+    }
         return false;
     }
 
@@ -502,7 +560,7 @@ public class Juego{
 
     public void realizarAccionesNPCs(){
         reposicionarNPC();
-        NPCComen();
+        //NPCComen();
         aumentarEdadTodasLasBacterias();
     }
 

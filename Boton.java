@@ -8,7 +8,7 @@ public class Boton extends JButton implements ActionListener{
     Jugable jugable = null;
     int x;
     int y;
-    String tipo;
+    String tipo = "VACIO";
     boolean seTieneQueVer = false;
 
     public Boton(int x, int y) {
