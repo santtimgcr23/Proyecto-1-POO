@@ -25,4 +25,14 @@ public class AlimentoVelocidad extends Alimento {
         Jugable jugable = new AlimentoVelocidad();
         return jugable;
     }
+
+    @Override
+    public boolean esPosibleObjetoQueComa(){
+        return false;
+    }
+
+    @Override
+    public boolean esBacteria(){
+        return false;
+    }
 }

@@ -34,5 +34,15 @@ public class Alimento extends Jugable {
         
     }
 
+    @Override
+    public boolean esPosibleObjetoQueComa(){
+        return false;
+    }
+
+    @Override
+    public void imprimirInformacionObjeto(){
+        System.out.println("Alimento: ");
+    }
+
     
 }

@@ -111,4 +111,10 @@ public class Bacteria extends Jugable {
         int nuevaEdad = this.getEdad() + aumentos.getCambiosEdad();
         this.setEdad(nuevaEdad);
     }
+
+    @Override
+    public boolean esPosibleObjetoQueComa(){
+        return true;
+    }
+
 }
