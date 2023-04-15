@@ -147,7 +147,7 @@ public void moverTodosNPC(){
                     Bacteria bacteriaTemporal = (Bacteria) mapa[i][j].jugable;
                     int velocidadBacteriaTemporal = bacteriaTemporal.getVelocidad();
                     int cantidadDeMovimientosPorHacer = numRandomMovimiento(velocidadBacteriaTemporal);
-                    for(i = cantidadDeMovimientosPorHacer; i > 0; i--){
+                    for(int p = cantidadDeMovimientosPorHacer; p > 0; i--){
                         if(mapa[i][j].jugable.esPosibleMover(this.mapa, arrayListTemporal) == false){
                             break;
                         }
