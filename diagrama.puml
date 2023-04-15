@@ -1,0 +1,169 @@
+@startuml "Diagrama Proyecto 1 - Santiago Moreno - Daniel Bello"
+
+class Aumentos{
+    -cambiosEnergia : int
+    -cambiosVelocidad : int
+    -cambiosVision : int
+    -cambiosEdad : int
+}
+
+class Jugable{
+    -posX : int
+    -posY : int
+}
+
+class Bacteria{
+    -energia : int
+    -vision : int
+    -velocidad : int
+    -edad : int
+    -posicionX : int
+    -posicionY : int
+    -bacteriaGanoCombate : int
+    +int addEnergia()
+    +int addVision()
+    +int addEdad()
+    +int addVelocidad()
+    +Bacteria comerEsteObjeto(Bacteria, Aumentos)
+    +Boolean determinarGanadorBatalla(Bacteria, Aumentos)
+    +Boolean esPosibleQueObjetoComa()
+}
+
+class BacteriaJ{
+    +Boolean esBacteria()
+}
+
+class BacteriaVelocidad{
+    +ArrayList<Integer> obtenerObjetoJugableMasCercano(Boton[][])
+    +ArrayList<Integer> obtenerNuevaPosicionMovimientoUnaCasilla(int, int, int, int)
+    +boolean esPosibleMover(Boton[][], ArrayList<Integer>)
+    +Boton[][] moverNPC(Boton[][], ArrayList<Integer>)
+}
+
+class BacteriaVision{
+    +ArrayList<Integer> obtenerObjetoJugableMasCercano(Boton[][])
+}
+
+class Alimento{
+    -tipo : Boolean
+    -size : int
+    +void detTamano()
+    +Bacteria comerEsteObjeto(Bacteria, Aumentos)
+}
+
+class AlimentoVelocidad{
+    +Bacteria comerEsteObjeto(Bacteria, Aumentos)
+    +boolean esPosibleObjetoQueComa()
+    +Boolean esBacteria()
+}
+
+class AlimentoVision{
+    +Bacteria comerEsteObjeto(Bacteria, Aumentos)
+    +boolean esPosibleObjetoQueComa()
+    +Boolean esBacteria()
+}
+
+class JButton{}
+
+class Boton{
+    -jugable : Jugable
+    -intX : int
+    -intY : int
+    -tipo : String
+    -seTieneQueVer : boolean
+    +void pintarDeSuColor()
+}
+
+class GameScreen{
+    -juego : Juego
+    +void crearTablero()
+    +void accionPresionarBoton(int, int)
+    +void actualizarDatosPantalla()
+}
+
+class infoScreen{
+    -user : String
+    -void initComponents()
+}
+
+class NameScreen{
+    -void initComponents()
+}
+
+class MainScreen(Aumentos){
+    -aumentos : Aumentos
+    -void initComponents()
+}
+
+class SettingsScreen(Aumentos){
+    -aumentos : Aumentos
+    -void initComponents()
+}
+
+class Juego(){
+    -tablero : Tablero
+    -jugadorX : int
+    -jugadorY : int
+    -mapa : Boton[][]
+    -jugador : Jugador
+    -aumentos : Aumentos
+    +void colocarCambiosAumentos()
+    +int indexRandom()
+    +int numRandom2()
+    +int numRandomMovimiento(int)
+    +void posBacteriaJ()
+    +void posAlimento()
+    +void posNPC()
+    +int getPasosNPC(Bacteria)
+    +void moverTodosNPC()
+    +void reposicionarNPC()
+    +int buscarDireccionMasCercana(int, int)
+    +boolean estaEnCampo(int, int)
+    +void pintarNegro()
+    +void colocarUnNPCAleatorio()
+    +void determinarAccionJugador(int, int)
+    +void analizarComerCasilla(int, int)
+    +boolean esPosibleComerDistancia(int, int)
+    +void analizarComerCasillaNCP(int, int, int, int)
+    +void intentarComerCasillaNPC(int, int, int, int)
+    +void intentarComerCasilla(int, int)
+    +boolean esPosibleComerNPC(int, int)
+    +ArrayList<Integer> obtenerPosicionPorComerDeNPC(int, int)
+    +boolean esPosibleComerPosicionEspecifica(int, int)
+    +void colocarNuevoObjetoEnElmapa(int, int)
+    +void eliminarObjetoComido(int, int)
+    +void actualizarDatosBacteriaJugador(Bacteria)
+    +void actualizarDatosBacteriaGanadora(Bacteria, int, int)
+    +boolean estaVaciaCasilla(int, int)
+    +boolean esPosibleMoverJugador(int, int)
+    +void moverJugador(int, int)
+    +void simulacionNPC()
+    +void realizarAccionesNPCs()
+    +void aumentarEdadTodasLasBacterias()
+    +void NPCComen()
+    +void imprimirMapa()
+}
+
+class Jugador(String){
+    -nombre : String
+    -bacteriaJ : BacteriaJ;
+    -turnoTerminado : boolean
+    -direccionMovimiento : int;
+}
+
+class Tablero{
+    -mapa : Boton[][]
+    +void crearMapa()
+    +ArrayList<Integer> obtenerPosicionJugador()
+}
+
+Jugable <|-- Bacteria
+Jugable <|-- Alimento
+Bacteria <|-- BacteriaJ
+Bacteria <|-- BacteriaVelocidad
+Bacteria <|-- BacteriaVision
+AlimentoVelocidad <|-- Alimento
+AlimentoVision <|-- Alimento
+Boton <|--- JButton
+
+@enduml

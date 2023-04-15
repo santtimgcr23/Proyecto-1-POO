@@ -118,7 +118,6 @@ public class Bacteria extends Jugable {
             return true;
         }
         else if(energiaAtacante < energiaAtacado){
-            System.out.println("Energia atacado: " + energiaAtacado);
             return false;
         }
 
@@ -145,11 +144,9 @@ public class Bacteria extends Jugable {
         // elegir ganador aleatoriamente
         int numeroAleatorio = (int)(Math.random()*2+1);
         if(numeroAleatorio == 1){
-            System.out.println("NUMERO 1");
             return true;
         }
         else{
-            System.out.println("NUMERO 2");
             return false;
         }
 

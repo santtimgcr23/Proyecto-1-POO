@@ -14,7 +14,6 @@ public class Alimento extends Jugable {
         if (tipo){
             Random r = new Random();
             this.size = r.nextInt(6-1) + 1;
-            System.out.println(size);
         }
     }
 
@@ -41,7 +40,6 @@ public class Alimento extends Jugable {
 
     @Override
     public void imprimirInformacionObjeto(){
-        System.out.println("Alimento: ");
     }
 
     

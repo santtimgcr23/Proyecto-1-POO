@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Juego{
     private Tablero tablero;
-    GameScreen gs;
     private int jugadorX;
     private int jugadorY;
     private Boton[][] mapa;
@@ -13,7 +12,6 @@ public class Juego{
 
     public Juego(Aumentos aumentos){
         this.tablero = new Tablero();
-        this.gs = gs;
         this.mapa = tablero.getMapa();
         this.aumentos = aumentos;
     }
@@ -156,13 +154,13 @@ public void reposicionarNPC(){
                     mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);
                     }
                     else {
-                        mapa[nuevaFila][nuevaColumna].setBackground(Color.BLUE);//CAMBIAR A Color.BLACK
+                        mapa[nuevaFila][nuevaColumna].setBackground(Color.BLACK);//CAMBIAR A Color.BLACK
                     }
                     if (mapa[i][j].seTieneQueVer == true){
                         mapa[i][j].setBackground(new java.awt.Color(153,255,153));
                     }
                     else{
-                    mapa[i][j].setBackground(new java.awt.Color(153,255,153));}//CAMBIAR A Color.BLACK
+                    mapa[i][j].setBackground(Color.BLACK);}//CAMBIAR A Color.BLACK
                 }
             }
         }
@@ -219,6 +217,12 @@ public int buscarDireccionMasCercana(int fila, int columna) {
                 mapa[i][j].pintarDeSuColor();
             }}}
     
+    public void moverCampoVision(int x, int y){
+        pintarNegro();
+        crearCampoVision(x, y);
+        pintar();
+    }        
+
     public void crearCampoVision(int x, int y){
         BacteriaJ bJ = (BacteriaJ)mapa[x][y].jugable;
         int vision = bJ.getVision();
@@ -289,17 +293,12 @@ public int buscarDireccionMasCercana(int fila, int columna) {
                     moverJugador(xSeleccionada, ySeleccionada);
                 }
                 else{
-                    System.out.println("EL JUGADOR NO SE PUEDE MOVER");
                 }
             }
             // SE COME UN ORGANISMO O ALIMENTO
             else{
                 analizarComerCasilla(xSeleccionada, ySeleccionada);
             }
-        }
-        else{
-            tablero.getMapa()[xSeleccionada][ySeleccionada].jugable.imprimirInformacionObjeto();
-            System.out.println("EL TURNO YA ACABO!");
         }
     }
 
@@ -309,12 +308,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
         if(esPosibleComerDistancia(xSeleccionada, ySeleccionada) == true){
             intentarComerCasilla(xSeleccionada, ySeleccionada);
             jugador.setTurnoTerminado(true);
-
         }
-        else{                                                                                 
-            System.out.println("JUGADOR NO COME");
-        }
-
     }
 
     public boolean esPosibleComerDistancia(int xSeleccionada, int ySeleccionada){
@@ -322,7 +316,6 @@ public int buscarDireccionMasCercana(int fila, int columna) {
         int yJugador = jugador.getBacteriaJ().getPosicionY();
 
         int sumaCasillas = Math.abs(xJugador - xSeleccionada) + Math.abs(yJugador - ySeleccionada);
-        System.out.println(sumaCasillas);
         if(sumaCasillas == 1){
             return true;
         }
@@ -341,12 +334,10 @@ public int buscarDireccionMasCercana(int fila, int columna) {
         if(bacteriaAtacanteGano == true){
             colocarNuevoObjetoEnElmapa(xPorComer, yPorComer);
             eliminarObjetoComido(xPorComer, yPorComer);
-            System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOOOOOOO");
         }
         else{
             colocarNuevoObjetoEnElmapa(xAtacante, yAtacante);
             eliminarObjetoComido(xAtacante, yAtacante);
-            System.out.println("ESO WAZIIIIIIIIN PERDIO LA BATALLA D:");
         }
     }
 
@@ -358,13 +349,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
             colocarNuevoObjetoEnElmapa(xSeleccionada, ySeleccionada);
             eliminarObjetoComido(xSeleccionada, ySeleccionada);
             moverJugador(xSeleccionada, ySeleccionada);
-            System.out.println("LA BACTERIA ATACANTE GANOOOOOOOOO!");
         }
-        else{
-
-            System.out.println("LA BACTERIA ATACANTE PERDIO");
-        }
-
     }
 
     //ES POSIBLE COMER PARA UN NPC
@@ -593,7 +578,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
 
         setJugadorX(xPorMover); setJugadorY(yPorMover);
 
-        //moverCampoVision(xPorMover, yPorMover);
+        moverCampoVision(xPorMover, yPorMover);
 
     }
 
@@ -653,15 +638,5 @@ public int buscarDireccionMasCercana(int fila, int columna) {
 
     //*******************************************************************************************************************************************************************************
     // Imprimir cosas
-
-    public void imprimirMapa(){
-        for(int i = 0; i<50; i++){
-            for(int j= 0; j<50;j++){
-                System.out.print(tablero.getMapa()[i][j].jugable);
-                System.out.print(", ");
-            }
-            System.out.println();
-            }
-        }
 
 }

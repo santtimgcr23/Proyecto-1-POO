@@ -16,7 +16,7 @@ public class GameScreen extends javax.swing.JFrame{
         juego.posNPC();
         initComponents();
         initialize();
-        //juego.crearCampoVision(juego.getJugadorX(), juego.getJugadorY());
+        juego.crearCampoVision(juego.getJugadorX(), juego.getJugadorY());
     }
     
     public void initialize(){
