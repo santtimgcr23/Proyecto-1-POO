@@ -30,4 +30,9 @@ public class AlimentoVelocidad extends Alimento {
     public boolean esPosibleObjetoQueComa(){
         return false;
     }
+
+    @Override
+    public boolean esBacteria(){
+        return false;
+    }
 }
