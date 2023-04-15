@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.ArrayList;
 
 public abstract class Jugable {
     private int posX;
@@ -40,11 +39,6 @@ public abstract class Jugable {
     public void imprimirInformacionObjeto(){
         
     }
-
-    public ArrayList<Integer> obtenerObjetoJugableMasCercano(Boton[][] mapa){
-        ArrayList<Integer> respuesta = new ArrayList<>();
-        return respuesta;
-    }
 ///CAMBIOS SUGERIDOS POR GITHUB
 
     public void setPosX(int posX) {
@@ -59,16 +53,5 @@ public abstract class Jugable {
         this.posY = posY;
     }
 
-    public boolean esBacteria(){
-        return true;
-    }
-
-    public boolean esPosibleMover(Boton[][] mapa, ArrayList<Integer> arrayListTemporal){
-        return true;
-    }
-
-    public Boton[][] moverNPC(Boton[][] mapa, ArrayList<Integer> arrayListTemporal){
-        return mapa;
-    }
     
 }

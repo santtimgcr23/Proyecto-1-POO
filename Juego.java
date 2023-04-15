@@ -41,11 +41,6 @@ public class Juego{
         return x;
     }
 
-    public int numRandomMovimiento(int numMaximo){
-        int numeroAleatorio = (int)(Math.random()*10);
-        return numeroAleatorio;
-    }
-
     public int getJugadorX() {
         return jugadorX;
     }
@@ -116,14 +111,7 @@ public class Juego{
                 x = indexRandom(); y = indexRandom();
                 bA = tablero.getMapa()[x][y];
             }
-            int numeroAleatorio = numRandom2();
-            Bacteria b;
-            if(numeroAleatorio == 1){
-                b = new BacteriaVelocidad();
-            }
-            else{
-                b = new BacteriaVision();
-            }
+            Bacteria b = new Bacteria();
             bA.setJugable(b);
             bA.setTipo("NPC");
             bA.setBackground(Color.BLUE);
@@ -136,29 +124,6 @@ public class Juego{
         Random r = new Random();
         return r.nextInt(bacteria.getVelocidad() - 0) + 0;
     }
-
-public void moverTodosNPC(){
-    for(int i = 0; i < mapa.length; i++){
-        for(int j = 0; j<mapa[0].length; j++){
-            if(mapa[i][j].jugable != null){
-                if(mapa[i][j].jugable.esBacteria() == true){
-                    ArrayList <Integer> arrayListTemporal = new ArrayList<>();
-                    arrayListTemporal = mapa[i][j].jugable.obtenerObjetoJugableMasCercano(mapa);
-                    Bacteria bacteriaTemporal = (Bacteria) mapa[i][j].jugable;
-                    int velocidadBacteriaTemporal = bacteriaTemporal.getVelocidad();
-                    int cantidadDeMovimientosPorHacer = numRandomMovimiento(velocidadBacteriaTemporal);
-                    for(i = cantidadDeMovimientosPorHacer; i > 0; i--){
-                        if(mapa[i][j].jugable.esPosibleMover(this.mapa, arrayListTemporal) == false){
-                            break;
-                        }
-                        this.mapa = mapa[i][j].jugable.moverNPC(this.mapa, arrayListTemporal);
-                    }
-
-                }
-            }
-        }
-    }
-}
 
 //MOVER LOS NPC
 public void reposicionarNPC(){
@@ -651,8 +616,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
     }
 
     public void realizarAccionesNPCs(){
-        //reposicionarNPC();
-        moverTodosNPC();
+        reposicionarNPC();
         NPCComen();
         aumentarEdadTodasLasBacterias();
     }
