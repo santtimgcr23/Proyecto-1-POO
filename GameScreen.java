@@ -13,7 +13,6 @@ public class GameScreen extends javax.swing.JFrame{
         juego.posNPC();
         initComponents();
         initialize();
-        //juego.crearCampoVision(juego.getJugadorX(), juego.getJugadorY());
     }
     
     public void initialize(){
@@ -71,11 +70,10 @@ public class GameScreen extends javax.swing.JFrame{
         jButton4.setText("SIMULAR");
         
 
-        // SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION SIMULACION
         ActionListener accion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                juego.simulacionNPC();
+                juego.simularNPC();
                 txtData.setText(juego.getJugador().getNombre() + " / ENERGÍA: " + juego.getJugador().getBacteriaJ().getEnergia() + " / VISIÓN: " + juego.getJugador().getBacteriaJ().getVision() + " / VELOCIDAD: " + juego.getJugador().getBacteriaJ().getVelocidad() + " / EDAD: " + juego.getJugador().getBacteriaJ().getEdad());
             }
         };
@@ -148,7 +146,7 @@ public class GameScreen extends javax.swing.JFrame{
     // End of variables declaration                   
 
     public void accionPresionarBoton(int i, int j){
-        juego.determinarAccionJugador(i, j);
+        juego.organizadorMoverJugador(i, j);
         actualizarDatosPantalla();
     }
 
