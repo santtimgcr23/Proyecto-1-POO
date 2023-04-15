@@ -25,6 +25,10 @@ public abstract class Jugable {
 
     }
 
+    public void disminuirVision(Aumentos aumentos){
+        
+    }
+
     public void comerNPC(){
         System.out.println("eso wazin");
     }

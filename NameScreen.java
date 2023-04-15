@@ -1,5 +1,7 @@
 public class NameScreen extends javax.swing.JFrame {
-    public NameScreen() {
+    Aumentos aumentos;
+    public NameScreen(Aumentos aumentos) {
+        this.aumentos = aumentos;
         initComponents();
         setTitle("MICROBIA - Nombre");
     }
@@ -117,7 +119,7 @@ public class NameScreen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         if (txtName.getText() != ""){
-            InfoScreen is = new InfoScreen(txtName.getText());
+            InfoScreen is = new InfoScreen(txtName.getText(), aumentos);
             is.setVisible(true);
             this.dispose();
         }
@@ -149,13 +151,6 @@ public class NameScreen extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NameScreen().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify                     

@@ -174,6 +174,12 @@ public class Bacteria extends Jugable {
     }
 
     @Override
+    public void disminuirVision(Aumentos aumentos){
+        int nuevaVision = this.getVision() - 1;
+        this.setVision(nuevaVision);
+    }
+
+    @Override
     public boolean esPosibleObjetoQueComa(){
         return true;
     }

@@ -116,7 +116,7 @@ public class MainScreen extends javax.swing.JFrame{
     }// </editor-fold>                        
 
     private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        NameScreen ns = new NameScreen();
+        NameScreen ns = new NameScreen(aumentos);
         ns.setVisible(true);
         this.dispose();
     }                                        

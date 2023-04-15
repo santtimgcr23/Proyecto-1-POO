@@ -11,20 +11,11 @@ public class Juego{
     private Jugador jugador;
     private Aumentos aumentos;
 
-    public Juego(){
+    public Juego(Aumentos aumentos){
         this.tablero = new Tablero();
         this.gs = gs;
         this.mapa = tablero.getMapa();
-        this.aumentos = new Aumentos();
-        colocarValoresAumentos();
-    }
-
-    // VALORES DE AUMENTOS TEMPORALES
-    public void colocarValoresAumentos(){
-        aumentos.setCambiosEdad(3);
-        aumentos.setCambiosEnergia(3);
-        aumentos.setCambiosVelocidad(3);
-        aumentos.setCambiosEdad(1);
+        this.aumentos = aumentos;
     }
 
     // NUMERO ALEATORIO ENTRE 0 Y 25
@@ -619,6 +610,7 @@ public int buscarDireccionMasCercana(int fila, int columna) {
         reposicionarNPC();
         NPCComen();
         aumentarEdadTodasLasBacterias();
+        disminuirVisionTodasLasBacterias();
     }
 
     public void aumentarEdadTodasLasBacterias(){
@@ -626,6 +618,16 @@ public int buscarDireccionMasCercana(int fila, int columna) {
             for(int j = 0; j<50; j++){
                 if(tablero.getMapa()[i][j].jugable != null){
                     tablero.getMapa()[i][j].jugable.aumentarEdad(aumentos);
+                }
+            }
+        }
+    }
+
+    public void disminuirVisionTodasLasBacterias(){
+        for(int i = 0; i < 50; i++){
+            for(int j = 0; j<50; j++){
+                if(tablero.getMapa()[i][j].jugable != null){
+                    tablero.getMapa()[i][j].jugable.disminuirVision(aumentos);
                 }
             }
         }

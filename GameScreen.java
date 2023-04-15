@@ -3,9 +3,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameScreen extends javax.swing.JFrame{
-    Juego juego = new Juego();
-    GameScreen(String jugadorN) {
+    Aumentos aumentos;
+    Juego juego;
+    GameScreen(String jugadorN, Aumentos aumentos) {
         setTitle("MICROBIA - Pantalla de Juego");
+        this.aumentos = aumentos;
+        this.juego = new Juego(aumentos);
         Jugador jugador = new Jugador(jugadorN);
         this.juego.setJugador(jugador);
         juego.posBacteriaJ();

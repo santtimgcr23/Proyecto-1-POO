@@ -5,8 +5,10 @@ import javax.swing.JFrame;
 public class InfoScreen extends javax.swing.JFrame {
 
     private String user;
+    private Aumentos aumentos;
 
-    public InfoScreen(String user) {
+    public InfoScreen(String user, Aumentos aumentos) {
+        this.aumentos = aumentos;
         setTitle("Pantalla de Información");
         this.user = user;
         initComponents();
@@ -154,7 +156,7 @@ public class InfoScreen extends javax.swing.JFrame {
     }                                        
 
     private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        GameScreen gs = new GameScreen(user);
+        GameScreen gs = new GameScreen(user, aumentos);
         gs.setVisible(true);
         gs.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.dispose();
